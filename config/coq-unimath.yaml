@@ -1,0 +1,8 @@
+name: theostos/coq-unimath
+output: export/output/coq-unimath
+tag: '9.0'
+packages:
+- coq-unimath
+base_image: theostos/rocq-lsp:9.0
+opam_env_path: /home/rocq/.opam/4.14.2+flambda
+user: rocq

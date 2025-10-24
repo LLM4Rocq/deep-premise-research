@@ -1,0 +1,24 @@
+name: theostos/coq-mathcomp
+output: export/output/coq-mathcomp
+tag: '9.0'
+packages:
+- coq-mathcomp-algebra
+- coq-mathcomp-analysis
+- coq-mathcomp-bigenough
+- coq-mathcomp-cad
+- coq-mathcomp-character
+- coq-mathcomp-classical
+- coq-mathcomp-field
+- coq-mathcomp-fingroup
+- coq-mathcomp-finmap
+- coq-mathcomp-multinomials
+- coq-mathcomp-odd-order
+- coq-mathcomp-real-closed
+- coq-mathcomp-reals
+- coq-mathcomp-solvable
+- coq-mathcomp-ssreflect
+- coq-mathcomp-tarjan
+- coq-hierarchy-builder
+base_image: theostos/rocq-lsp:9.0
+opam_env_path: /home/rocq/.opam/4.14.2+flambda
+user: rocq

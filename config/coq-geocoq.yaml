@@ -1,0 +1,14 @@
+name: theostos/coq-geocoq
+output: export/output/coq-geocoq
+tag: '8.20'
+packages:
+- coq-geocoq
+- coq-geocoq-algebraic
+- coq-geocoq-axioms
+- coq-geocoq-coinc
+- coq-geocoq-elements
+- coq-geocoq-main
+- coq-geocoq-pof
+base_image: theostos/coq-lsp:8.20
+opam_env_path: /home/coq/.opam/4.13.1+flambda
+user: coq

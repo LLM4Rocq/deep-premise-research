@@ -1,0 +1,8 @@
+name: theostos/coq-qcert
+output: export/output/coq-qcert
+tag: '8.20'
+packages:
+- coq-qcert
+base_image: theostos/coq-lsp:8.20
+opam_env_path: /home/coq/.opam/4.13.1+flambda
+user: coq

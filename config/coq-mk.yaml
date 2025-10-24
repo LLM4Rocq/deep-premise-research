@@ -1,0 +1,9 @@
+name: theostos/coq-mk
+output: export/output/coq-mk
+tag: '8.20'
+packages:
+- coq-mk-choice-axiom-and-equivalent-propositions
+- coq-mk-reals-axioms
+base_image: theostos/coq-lsp:8.20
+opam_env_path: /home/coq/.opam/4.13.1+flambda
+user: coq

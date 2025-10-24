@@ -1,0 +1,8 @@
+name: theostos/coq-morse-kelley-axiomatic-set-theory
+output: export/output/coq-morse-kelley-axiomatic-set-theory
+tag: '8.20'
+packages:
+- coq-morse-kelley-axiomatic-set-theory
+base_image: theostos/coq-lsp:8.20
+opam_env_path: /home/coq/.opam/4.13.1+flambda
+user: coq

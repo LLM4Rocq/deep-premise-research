@@ -1,0 +1,14 @@
+name: theostos/coq-kruskal
+output: export/output/coq-kruskal
+tag: '8.20'
+packages:
+- coq-kruskal-almostfull
+- coq-kruskal-fan
+- coq-kruskal-finite
+- coq-kruskal-higman
+- coq-kruskal-theorems
+- coq-kruskal-trees
+- coq-kruskal-veldman
+base_image: theostos/coq-lsp:8.20
+opam_env_path: /home/coq/.opam/4.13.1+flambda
+user: coq

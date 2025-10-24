@@ -1,0 +1,8 @@
+name: theostos/coq-fiat-crypto
+output: export/output/coq-fiat-crypto
+tag: '8.20'
+packages:
+- coq-fiat-crypto
+base_image: theostos/coq-lsp:8.20
+opam_env_path: /home/coq/.opam/4.13.1+flambda
+user: coq

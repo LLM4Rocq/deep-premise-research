@@ -1,0 +1,8 @@
+name: theostos/rocq-yalla
+output: export/output/rocq-yalla
+tag: '9.0'
+packages:
+- rocq-yalla
+base_image: theostos/rocq-lsp:9.0
+opam_env_path: /home/rocq/.opam/4.14.2+flambda
+user: rocq

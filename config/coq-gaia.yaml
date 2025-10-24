@@ -1,0 +1,12 @@
+name: theostos/coq-gaia
+output: export/output/coq-gaia
+tag: '8.20'
+packages:
+- coq-gaia-numbers
+- coq-gaia-ordinals
+- coq-gaia-schutte
+- coq-gaia-stern
+- coq-gaia-theory-of-sets
+base_image: theostos/coq-lsp:8.20
+opam_env_path: /home/coq/.opam/4.13.1+flambda
+user: coq

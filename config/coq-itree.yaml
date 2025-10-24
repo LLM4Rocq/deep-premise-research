@@ -1,0 +1,10 @@
+name: theostos/coq-itree
+output: export/output/coq-itree
+tag: '8.20'
+packages:
+- coq-itree
+- coq-itree-extra
+- coq-itree-io
+base_image: theostos/coq-lsp:8.20
+opam_env_path: /home/coq/.opam/4.13.1+flambda
+user: coq

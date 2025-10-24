@@ -1,0 +1,8 @@
+name: theostos/coq-high-school-geometry
+output: export/output/coq-high-school-geometry
+tag: '8.20'
+packages:
+- coq-high-school-geometry
+base_image: theostos/coq-lsp:8.20
+opam_env_path: /home/coq/.opam/4.13.1+flambda
+user: coq

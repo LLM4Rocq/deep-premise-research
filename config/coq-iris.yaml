@@ -1,0 +1,10 @@
+name: theostos/coq-iris
+output: export/output/coq-iris
+tag: '9.0'
+packages:
+- coq-iris
+- coq-iris-heap-lang
+- coq-vst-iris
+base_image: theostos/rocq-lsp:9.0
+opam_env_path: /home/rocq/.opam/4.14.2+flambda
+user: rocq
