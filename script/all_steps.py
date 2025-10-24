@@ -1,3 +1,5 @@
+"""Command-line entry point that runs every extraction stage in order."""
+
 import argparse
 import os
 

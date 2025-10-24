@@ -1,3 +1,5 @@
+"""Step 1: extract raw source files from the configured container."""
+
 import argparse
 import os
 import json
@@ -9,6 +11,7 @@ from src.parser.opam_docker import OpamDocker
 from src.config.opam_config import OpamConfig
 
 def extract_sources(config: OpamConfig, new_config_path: str, port: int=8765, kill_clone=False, **_):
+    """Dump every `.v` file of the target OPAM packages into JSONL."""
     opam_docker = OpamDocker(config, kill_clone=kill_clone)
     opam_docker.start_pet(port)
 

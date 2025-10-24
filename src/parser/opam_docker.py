@@ -1,3 +1,5 @@
+"""Helpers to manage Docker containers for OPAM-based Coq environments."""
+
 import os
 import time, socket
 from pathlib import Path
@@ -10,7 +12,10 @@ from src.config.opam_config import OpamConfig
 from .parser import Source
 
 class OpamDocker:
+    """Wraps Docker interactions for extracting data from an OPAM switch."""
+
     def __init__(self, config:OpamConfig, build=False, kill_clone=False):
+        """Start or reuse a container built from the given OPAM configuration."""
         super().__init__()
         self.client = docker.from_env()
         image_name = config.name + ':' + config.tag
@@ -40,6 +45,7 @@ class OpamDocker:
         self.opam_env_path = config.opam_env_path
         
     def _ensure_running(self):
+        """Guarantee the container is running before issuing commands."""
         self.container.reload()
         if self.container.status != "running":
             self.container.start()
@@ -48,7 +54,7 @@ class OpamDocker:
                 raise RuntimeError(f"Container not running (status={self.container.status})")
 
     def _stream_exec(self, cmd: str, *, demux: bool = True) -> int:
-        """Run a command in the container and stream output; return exit code."""
+        """Run a command inside the container and stream its output."""
         self._ensure_running()
         api = self.client.api
         exec_id = api.exec_create(
@@ -79,6 +85,7 @@ class OpamDocker:
         return int(status.get("ExitCode", 1))
 
     def install_project(self, project: str, extra_args: str = ""):
+        """Install OPAM packages inside the container image."""
         env = "OPAMYES=1 OPAMCOLOR=never"
         cmd_install = f"{env} opam install {project} {extra_args}"
         cmd = f"sh -lc '{cmd_install}'"
@@ -87,6 +94,7 @@ class OpamDocker:
             raise RuntimeError(f"`opam install {project}` failed with exit code {code}")
 
     def exec_cmd(self, cmd) -> str:
+        """Execute a command without streaming and return its stdout."""
         api = self.client.api
         exec_id = api.exec_create(
             self.container.id,
@@ -98,6 +106,7 @@ class OpamDocker:
         return self.client.api.exec_start(exec_id).decode('utf-8')
 
     def _read_file(self, filepath, max_bytes=None, encoding="utf-8") -> str:
+        """Read a file from the container filesystem."""
         api = self.client.api
         cmd = f"sh -lc 'cat -- {shlex.quote(filepath)}'"
         exec_id = api.exec_create(self.container.id, cmd,
@@ -121,12 +130,14 @@ class OpamDocker:
         return buf.decode(encoding, errors="replace")
 
     def close(self):
+        """Stop and remove the underlying container."""
         try:
             self.container.kill()
         finally:
             self.container.remove(force=True)
 
     def start_pet(self, port=8765, timeout=30):
+        """Launch pet-server inside the container."""
         self.pet_port = port
         self.exec_cmd(
             "sh -lc 'eval $(opam env) && "
@@ -143,6 +154,7 @@ class OpamDocker:
         raise RuntimeError(f"pet-server failed to start on port {port}.\n{log}")
 
     def extract_opam_path(self, package_name: str, info_path: Dict[str, str]):
+        """Resolve the OPAM installation path for a package."""
         opam_show = self.exec_cmd(f"opam show {package_name}")
         match = re.search(r'"logpath:([A-Za-z0-9_.-]+)"', opam_show)
         if not match:
@@ -151,6 +163,7 @@ class OpamDocker:
         return match.group(1), opam_show
 
     def extract_files(self, package_name: str, info_path: Dict[str, str]) -> Dict[str, Any]:
+        """List `.v` files shipped with an installed package."""
         fqn, opam_show = self.extract_opam_path(package_name, info_path)
         user_contrib_path = os.path.join(self.opam_env_path, "lib/coq/user-contrib/")
         sources_path = os.path.join(user_contrib_path, fqn.replace('.', '/'))
@@ -158,6 +171,7 @@ class OpamDocker:
         return {"fqn": fqn, "package_name": package_name, "root": user_contrib_path, "subfiles": [file for file in subfiles if file.endswith('.v')], "opam_show": opam_show}
 
     def get_source(self, filepath) -> Source:
+        """Return a `Source` dataclass for a file inside the container."""
         content = self._read_file(filepath)
         return Source(path=Path(filepath), content=content)
     

@@ -1,3 +1,5 @@
+"""Step 2: enrich sources with load paths and theorem metadata."""
+
 import argparse
 import json
 from dataclasses import asdict
@@ -10,6 +12,7 @@ from src.parser.tiny_rocq_parser import TinyRocqParser, Source
 from script.utils import extract_done, uid_metadata, ram_used_frac, restart_docker, time_limit
 
 def extract_metadata(config: OpamConfig, port: int=8765, kill_clone=False, toc_timeout=5*60, extract_timeout=2*60, max_memory=0.8, **_):
+    """Collect metadata for each source, including ToC and load path."""
     opam_docker = OpamDocker(config, kill_clone=kill_clone)
     opam_docker.start_pet(port)
     tiny_parser = TinyRocqParser(port)

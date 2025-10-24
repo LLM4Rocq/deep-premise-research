@@ -1,3 +1,5 @@
+"""Step 3: replay proofs to capture goals, steps, and dependencies."""
+
 import argparse
 import json
 from dataclasses import asdict
@@ -9,6 +11,7 @@ from src.parser.tiny_rocq_parser import TinyRocqParser, Element, Source
 from script.utils import extract_done, uid_theorem, ram_used_frac, restart_docker, time_limit
 
 def extract_elements(config: OpamConfig, port: int=8765, kill_clone=False, extract_timeout=2*60, max_memory=0.8, **_):
+    """Replay proofs for each theorem and capture all proof steps."""
     opam_docker = OpamDocker(config, kill_clone=kill_clone)
     opam_docker.start_pet(port)
     tiny_parser = TinyRocqParser(port)

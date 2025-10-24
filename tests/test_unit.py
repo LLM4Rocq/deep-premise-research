@@ -1,11 +1,9 @@
+"""Unit tests for tiny Rocq parser helpers."""
+
 from src.parser.tiny_rocq_parser import TinyRocqParser, Source, Element, Range, Position
 
-
-"""
-WIP
-"""
-
 def test__extract_proof_steps():
+    """Ensure proof extraction keeps bullets and tactics in order."""
     parser = TinyRocqParser("8765")
     start_pos = Position(line=1, character=0)
     end_pos = Position(line=1, character=66)
