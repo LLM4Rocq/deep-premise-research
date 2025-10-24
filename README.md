@@ -1,6 +1,29 @@
 # Deep Premise Research
 
+Premise selection is a bottleneck in formal proving. General LLMs can solve many informal math problems but often fail to produce verifiable Lean/Rocq proofs. Recent agentic systems that add retrieval and specialized prover models vastly improve results on strong formal benchmarks, which motivates training a dedicated premise-selection policy rather than memorizing a fixed library snapshot.
+
 This repository explores how to train large language models with reinforcement learning so they can select the right premises while navigating large Rocq and Lean 4 libraries. The project turns finished proofs into supervision signals: each proof step yields a goal plus the premises that were actually used. Those (goal, premises) pairs then become the reward signal for an RL policy that must discover the same dependencies by browsing the codebase.
+
+## RL Training (Premise Selection)
+
+**State.** Goal + hypotheses + module/load-path context + selected premises so far + a rolling summary of outputs from tools.
+**Actions.** `add_premise(p)` to include one premise; `stop` to finalize the set.  
+**Tools available to the policy.**
+- `toc(library_or_module)`: access a Table of Contents to discover symbols and modules.  
+- `read(path)`: read a simplified view of a source file.  
+- `sandbox(cmd)`: run proof-assistant interactions for checks.  
+- `sample_uses(premise, k=3)`: return up to 3 random proofs that use the premise, with their initial goals.
+
+**Reward.** Number of correct premises / number of total premises.
+
+**Optimization.** GRPO.
+
+**Training data.** The pipeline extracts step-wise (goal, premises) pairs from ~150 curated Rocq libraries and is being extended to Lean 4. The resulting dataset provides hundreds of thousands of pairs (ongoing).
+
+**Rollout.** The agent interleaves tool calls and premise proposals.
+
+**Evaluation.**  
+- Top-k precision/recall for premise prediction.  
 
 ## How It Works
 
