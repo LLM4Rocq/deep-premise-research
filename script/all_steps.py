@@ -28,13 +28,26 @@ if __name__ == '__main__':
         all_configs.append(OpamConfig.from_yaml(config_path))
     
     for config in tqdm(all_configs, desc="Building All Docker Images"):
-        build_image(config, **vars(args))
+        try:
+            build_image(config, **vars(args))
+        except Exception as e:
+            print(f"ignore {config.name}")
 
     for config in tqdm(all_configs, desc="Extracting All Sources"):
-        extract_sources(config, **vars(args))
+        try:
+            extract_sources(config, **vars(args))
+        except Exception as e:
+            print(f"ignore {config.name}")
+        
     
-    for config in tqdm(all_configs, desc="Exactring All Metadata"):
-        extract_metadata(config, **vars(args))
+    for config in tqdm(all_configs, desc="Extracting All Metadata"):
+        try:
+            extract_metadata(config, **vars(args))
+        except Exception as e:
+            print(f"ignore {config.name}")
 
-    for config in tqdm(all_configs, desc="Exxtracting All Elements"):
-        extract_elements(config, **vars(args))
+    for config in tqdm(all_configs, desc="Extracting All Elements"):
+        try:
+            extract_elements(config, **vars(args))
+        except Exception as e:
+            print(f"ignore {config.name}")
